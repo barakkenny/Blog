@@ -13,6 +13,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import { Input } from '../ui/input'
+import { Button } from '../ui/button'
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -22,16 +24,46 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema> 
 
 function LoginForm() {
-  const [isloading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema)
   })
 
   return (
-    <form>
-      
-    </form>
+    <Form {...form}>
+      <form className='space-y-4'>
+      <FormField
+        control={form.control}
+        name="email"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Email</FormLabel>
+            <FormControl>
+              <Input {...field} type="email" placeholder="Enter your email" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+        />
+        <FormField
+        control={form.control}
+        name="email"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Password</FormLabel>
+            <FormControl>
+              <Input {...field} type="password" placeholder="Enter your email" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+        />
+        <Button type="submit" className="w-full mt-5" disabled={isLoading}>
+                   {isLoading ? "Signing in..." :"Sign In"}
+        </Button>
+        </form>
+    </Form>
   )
 }
 
